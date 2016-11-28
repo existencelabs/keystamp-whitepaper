@@ -52,7 +52,7 @@ We use BIP32 Bitcoin key architecture for cryptographically-enforced access perm
 ## Hierarchical encryption and access control
 
 
-We private keys not only for signing data but also as encryption passwords for storing data. This means that when the lower sub-keys encrypt data, all the levels above can decrypt it. It’s a one way function. As such, only the issuing authority has access to all the data, and permissions are hierarchical, perfect for institutions such as financial regulators.
+We use private keys not only for signing data but also as encryption passwords for storing data. This means that when the lower sub-keys encrypt data, all the levels above can decrypt it. It’s a one way function. As such, only the issuing authority has access to all the data, and permissions are hierarchical, perfect for institutions such as financial regulators.
 
 
 ## Decentralized and trustless
@@ -168,8 +168,6 @@ We return a blockchain receipt which includes
 
 ## More Information and resources:
 
-
-Website: keystamp.io:3000
 git: https://github.com/existencelabs/keystamp-client
 git: https://github.com/existencelabs/keystamp-api
 
