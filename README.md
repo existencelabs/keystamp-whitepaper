@@ -5,6 +5,13 @@ by Francis Pouliot, Shayan Eskandari
 
 Written during RegHackTO hackathon, November 27th 2016
 
+With the collaboration of:
+
+- Jean-Philippe Beaudet
+- Arthur Gerbelot
+- Patrick Poirier
+- Philippe Chevry
+
 Presented under the team Existence
 
 ## Abstract
