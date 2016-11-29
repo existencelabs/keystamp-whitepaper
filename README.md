@@ -26,7 +26,6 @@ Keystamp is a Proof-of-Knowledge institution for the digital economy, since this
 
 It can be used for mediation in civil disputes (contracts) by the general public since proofs are easy to verify. The purpose is to foster trust through disruptive technologies. We aim to increase social cohesion in the digital economy, providing an entirely digital institutional framework of trust for the digital economy.
 
-
 Keystamp has the potential to enormously decrease the costs of compliance and audit for financial institutions, technology providers, governments, and any institution that needs trust and hierarchical authorizations. It increases transparency and saves money to the taxpayers. Because Keybase operates independantly from any other system and rather connects via API or using the a web application, it is easy to implement in an existing production workflow without changing the system used, as long as the system used can communicate data to the Keystamp app or API.
 
 ## Context and use-case
@@ -47,6 +46,17 @@ Our use-case revolves around three types of financial relationships that are und
 ![Keystamp implementation](https://github.com/existencelabs/keystamp-whitepaper/blob/master/Keystamp%20Implementation%20resized.png)
 
 ## Technology
+
+### Design and architecture
+
+The first step is to select the cryptographic functions that will be used in the Keystamp standard process. 
+
+- Key generation: creating the certificate issuer's key (the master key)
+- Key derivation: issuer creating subkeys for "subordonnates" in the key hierarchy
+
+An application or system implementing the Keystamp process
+
+
  
 ### Cryptographically-enforced permissions
 
@@ -141,13 +151,11 @@ Since the higher level keys can derive the keys of the lower level keys:
 
 
 
-## The standard process
+## Process and data flow
 
+1. The issuing authority generates a master private key using the Bitcoin BIP32 standard. It is from this key that all subsequent keys in the infrastructure are derived. In our example, the regulator would be the issuing authority. This key can be made public by the issuer.
 
-1. The issuing authority (e.g. regulator) generates a master private key using the Bitcoin BIP32 standard. It is from this key that all subsequent keys in the infrastructure are derived.
-
-
-2. The issuing authority generates (derives) hardened keys for each of the “subordinates” in the hierarchy. This can mean the relationship between regulators and financial services firms.  
+2. The issuing authority generates (derives) sub-keys for its master key, which are assigned by the issuer to each of the “subordinates” in the hierarchy. These keys can be conceived as "certificates". 
 
 
 3. This means that anybody can independently verify that a certain firm has been accredited by the regulatory authority, as long as the firm is using the Keystamp protocol.
