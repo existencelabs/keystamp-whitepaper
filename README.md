@@ -44,6 +44,7 @@ Our use-case revolves around three types of financial relationships that are und
 - The delivery of data by the producers or sellers of investment products to financial advisors.
 - The assessment of the risk profile of the investment products by financial advisors at time at which advice is given to investing clients.
 
+![Keystamp implementation](https://github.com/existencelabs/keystamp-whitepaper/blob/master/Keystamp%20Implementation%20resized.png)
 
 ## Technology
  
