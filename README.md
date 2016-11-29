@@ -1,46 +1,54 @@
 # KEYSTAMP
 ## An open-source Proof-of-Compliance standard on the blockchain
 
+by Francis Pouliot, Shayan Eskandari
+
+Written during RegHackTO hackathon, November 27th 2016
+
+Presented under the team Existence
+
 ## Abstract
 
 
-We propose an new open-source standard, Keystamp, for allowing financial services participants to prove irrefutably the actions they took and knowledge they had at a specific point in time. It is a complete cryptographic key management infrastructure and allows for the seamless integration of blockchain technology in an easy-to-use workflow. We specifically implement Proof-of-Compliance (PoC) in the context of “know-your-customer” policies, or any other context where establishing that information was obtained by certain parties at a certain time is required.
+We propose an new open-source standard, Keystamp, for allowing financial services participants to prove irrefutably the actions they took and knowledge they had at a specific point in time. It also allows participants to cryptographically prove their identity in a private way by signing messages with their private keys. Private keys can used as encryption passwords for data. Since we use Bitcoin as the cryptography and blockchain platform, all the keys used in Keystamp can not only send and receive funds via Bitcoin but also issue and transfer blockchain-based assets representing any security or property title using Metaprotocols on the Bitcoin blockchain.
+
+A Keybase implementation consists of a complete cryptographic key management infrastructure and allows for the seamless integration of blockchain technology in an easy-to-use workflow. A functional API can integrate easily in any existing traditional workflow, with graphical easy-to-use tools to foster implementation. Since Keystamp aims to be a standard, adoption needs to be implemented voluntarily by a large number of firms in the economy to be successful.
+
+### Implementation
+
+We specifically implement the Proof-of-Compliance use-case of Keystamp in the context of “know-your-customer” policies, or any other context where establishing that information was obtained by certain parties at a certain time is required. Proof-of-compliance provides a digital trail of unforgeable signatures and timestamps which consist of irrefutable evidence that someone had certain information, took action or participated in specific events at specific points in time.
+
+It is intended to be used in the context of corporations, where heads of the hieararchy issue certificates to subordinates (and so on) that grant them the right to sign contracts, handle funds, issue other certificates, encrypt certain data, etc. Since issuance and revocation of contracts are enforced cryptographically and are publicly auditable, easy to authentificate and verify using graphical interfaces over complex cryptographic libraries, anybody can verify who they are talking to and where they derive their authority from in the context of a business relationship. It can be implemented by public bodies such as government and enforcement agencies, so as to limit fraud and foster public trust.
+
+### Purpose and impact
+
+Keystamp is a Proof-of-Knowledge institution for the digital economy, since this open-source system can be used by anyone, for free, to prove that he possessed any data at any time. The concept is designed to have a sophisticated aggregation of various blockchain-related technologies with an easy to use, graphical interface and a general-purpose open API. These incredibly powerful tools can be used by the public not only to take control of their identity but also to achieve complete trust through the auditable and self-validating nature of the technologies used. As the process of education the public, starting from penetration at the top level of the institutions which are the ultimate beficiairies within their firm of a Keystamp implementation.
+
+It can be used for mediation in civil disputes (contracts) by the general public since proofs are easy to verify. The purpose is to foster trust through disruptive technologies. We aim to increase social cohesion in the digital economy, providing an entirely digital institutional framework of trust for the digital economy.
 
 
-It provides a digital trail of unforgeable signatures and timestamps that provides irrefutable evidence that someone had certain information, took action or participated in specific events at specific points in time.
+Keystamp has the potential to enormously decrease the costs of compliance and audit for financial institutions, technology providers, governments, and any institution that needs trust and hierarchical authorizations. It increases transparency and saves money to the taxpayers. Because Keybase operates independantly from any other system and rather connects via API or using the a web application, it is easy to implement in an existing production workflow without changing the system used, as long as the system used can communicate data to the Keystamp app or API.
+
+## Context and use-case
+
+Keystamp was designed during the RegHackTO hackathon organized by the Ontario Securities Commission. The task of Keystap was to respond to the following challenges:
+
+- Ensure that know-your-customer policies have been implemented
+- Ensure that investors have the proper knowledge they require
+- Help investigators validate proper forms were filed, disclosures signed, etc.
+- Remove ambiguity and deniability
+
+Our use-case revolves around three types of financial relationships that are under the purview Ontario Securities Commission:
+
+- The “know-your-customer” process initiated by financial advisors for assessing the risk profile of their investing clients.
+- The delivery of data by the producers or sellers of investment products to financial advisors.
+- The assessment of the risk profile of the investment products by financial advisors at time at which advice is given to investing clients.
 
 
-It is also a Proof-of-Knowledge institution for the digital economy, since this open-source system can be used by anyone, for free, to prove that he possessed any data at any time. It can be used for mediation in civil disputes (contracts) by the general public since proofs are easy to verify.
+## Technology
+ 
+### Cryptographically-enforced permissions
 
-
-Purpose and social impact
-
-
-The purpose is to foster trust through disruptive technologies. We aim to increase social cohesion in the digital economy, providing an entirely digital institutional framework of trust for the digital economy.
-
-
-Keystamp has the potential to enormously decrease the costs of compliance and audit for financial institutions, technology providers, governments, and any institution that needs trust and hierarchical authorizations. It increases transparency and saves money to the taxpayers.
-
-
-##Technology stack
-
-
-Our technology stack consists of:
-
-
-- A public key infrastructure web application
-- An API for signature, validation and timestamping engines 
-- Cryptographically-enforced data and rights access permissions
-- Gateway connection to blockchain P2P network
-- Issuance of unforgeable digital certificates
-- Hierarchical and deterministic encryption 
-- Abstraction layer for complex cryptographic libraries
-- Telephone verification (2FA) and traditional KYC
-- A graphical interface for internal and regulatory compliance
-- Built-in compliance tools for financial advisors
-
-
-## Cryptographically-enforced permissions
 
 
 We use BIP32 Bitcoin key architecture for cryptographically-enforced access permissions. The issuing authority generates a master private key which it uses to perform digital signatures. It derives sub-keys (hardened keys) that the authority can assign at will. That authority can also to the same, and assign keys at a lower level.
@@ -69,19 +77,46 @@ All of these cryptographic identities can be linked to legal identities in a cen
 
 To prove that data existed at a certain time, we can hash the data, leaving a tiny fingerprint. That fingerprint is then signed by the holder of a key, along with a message providing context. If the key is associated to a legal identity, this is irrefutable proof that a person or organization said something or had some information.
 
+##Technology stack
 
-## Context and use-case
+### Bitcoin blockchain thermodynamics
 
-
-This technology is extremely useful to prove that the proper due diligence was made, the proper disclosures were understood, and proper documents were received and validated, etc.
-
-
-Our use-case revolves around three types of financial relationships that are under the purview Ontario Securities Commission:
+One of the main benefits of the blockchain is that it can provide independently auditable cryptographic proof that a certain set of data existed at a specific period in time. Because of the blockchain proof-of-work algorithm, data embedded in the blockchain is entirely immutable.This is what is referred to as “notarization”. The reason why this is useful is because of the work produced by the miners
 
 
-- The “know-your-customer” process initiated by financial advisors for assessing the risk profile of their investing clients.
-- The delivery of data by the producers or sellers of investment products to financial advisors.
-- The assessment of the risk profile of the investment products by financial advisors at time at which advice is given to investing clients.
+We leverage the public key encryption algorithms on which the identity system of the Bitcoin blockchain is built, as well as the immutable and trustless nature of blockchain timestamps. 
+
+
+
+In addition, public key encryption makes possible irrefutable digital signatures. By combining the two, we can prove that a set of data was “signed” by a person or organisation at a certain point in time. We can leverage those technologies in the context of compliance to increase trans
+
+### Crypto and blockchain
+
+- Key generation using [Bitcoin BIP32 standard](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki)
+- Key derivation for issuing subkeys or certificates
+- Hashing of data using cryptographic hash function [SHA-256](https://en.wikipedia.org/wiki/SHA-2)
+- Signing of hashes (or of any data) using Elliptic Curve Digital Signature Algorithm (ECDSA)
+- Notarize text to the Bitcoin blockchain using the OP_Return 
+1. Creation of a Bitcoin transaction with the KEYSTAMP prefix and the hash of the data to notarize
+2. Broadcast the transation to include the transaction, with our proofs (signatures, data), into the Bitcoin blockchain forever.
+- A validation library which consists of
+1. Retrieving a hash from a txid
+2. Verifiying if a file (file URL) has the same hash
+
+
+
+### Implementation
+
+- [ An API for all the crypto functions](https://github.com/shayanb/keystamp-crypto)
+- Abstraction layer for complex cryptographic libraries (ease of integration)
+- Gateway connection to blockchain P2P network through full nodes
+- Public key infrascture application
+- Policies for generating and issuing keys
+- Registry (centralized or decentralized) for associating keys to legal identity
+- Traditional KYC methods for assessing user identity online 
+- A graphical interface for internal and regulatory compliance showoing the map of all key trees
+
+
 
 
 
@@ -102,11 +137,7 @@ Since the higher level keys can derive the keys of the lower level keys:
 - Subordinates can encrypt data for reporting purposes
 
 
-# Bitcoin extended public key (BIP32) architecture
 
-We leverage the public key encryption algorithms on which the identity system of the blockchain is built, as well as the immutable and trustless nature of blockchain timestamps. 
-
-One of the main benefits of the blockchain is that it can provide independently auditable cryptographic proof that a certain set of data existed at a specific period in time. Because of the blockchain proof-of-work algorithm, data embedded in the blockchain is entirely immutable.This is what is referred to as “notarization”. In addition, public key encryption makes possible irrefutable digital signatures. By combining the two, we can prove that a set of data was “signed” by a person or organisation at a certain point in time. We can leverage those technologies in the context of compliance to increase trans
 
 
 ## The standard process
