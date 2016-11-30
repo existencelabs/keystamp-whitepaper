@@ -17,7 +17,19 @@ Presented under the team Existence
 ## Abstract
 
 
-We propose an new open-source standard, Keystamp, for allowing financial services participants to prove irrefutably the actions they took and knowledge they had at a specific point in time. It also allows participants to cryptographically prove their identity in a private way by signing messages with their private keys. Private keys can used as encryption passwords for data. Since we use Bitcoin as the cryptography and blockchain platform, all the keys used in Keystamp can not only send and receive funds via Bitcoin but also issue and transfer blockchain-based assets representing any security or property title using Metaprotocols on the Bitcoin blockchain.
+We propose an new open-source standard, Keystamp, which allows financial services participants to prove irrefutably the actions they took and knowledge they had at a specific point in time. Specifically, we design an innovative set of policies and procedures for using existing blockchain technologies, protocols and public-key encryption concepts to be integrated in traditional workflows and business relationships.
+
+such as the authentification of parties and the notarization and validation of data such as compliance documentsproofs-of-knowledge (such as disclosures), statements of intentions (oaths) and contracts, activities or events logs, auditing the integrity of the data supplied. 
+
+T provides an digital trail of unforegable signatures, immutable timestamps and encrypted contextual data that can be used to prove the participants' compliance to  external and internal requirements such as legislation, rules, guidelines, standards, codes, policies, procedures and controls.
+
+Keystamp is the reference implementation of the "Proof-of-compliance" 
+
+It also allows participants to cryptographically prove their identity in a private way by signing messages with their private keys. Private keys can used as encryption passwords for data. Since we use Bitcoin as the cryptography and blockchain platform, all the keys used in Keystamp can not only send and receive funds via Bitcoin but also issue and transfer blockchain-based assets representing any security or property title using Metaprotocols on the Bitcoin blockchain.
+
+
+
+
 
 A Keybase implementation consists of a complete cryptographic key management infrastructure and allows for the seamless integration of blockchain technology in an easy-to-use workflow. A functional API can integrate easily in any existing traditional workflow, with graphical easy-to-use tools to foster implementation. Since Keystamp aims to be a standard, adoption needs to be implemented voluntarily by a large number of firms in the economy to be successful.
 
