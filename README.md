@@ -16,28 +16,21 @@ Presented under the team Existence
 
 ## Abstract
 
+We propose an new open-source standard, Keystamp, which allows financial services participants to generate and verify irrefutable proofs that specific indidividuals or organizations possessed information, performed actions or signed messages at a certain point in time. Specifically, we design an innovative set of policies and procedures for existing blockchain technologies, protocols and public-key encryption concepts to be integrated in traditional workflows and business relationships. Keystamp is designed to be deployed within organizations and aims to become a the standard framework for industry participants to prove the authenticity, validity and integrity of factual data.
 
-We propose an new open-source standard, Keystamp, which allows financial services participants to prove irrefutably the actions they took and knowledge they had at a specific point in time. Specifically, we design an innovative set of policies and procedures for using existing blockchain technologies, protocols and public-key encryption concepts to be integrated in traditional workflows and business relationships.
+Contextual data such as application logs, phone verification / biometrics, video recordings, emails are included in data bundles with signatures which are encrypted, signed, hashed and timestamped. Pseudonymous cryptographic keys are associated to legal identities in a refernece index, maintained in a centralized or distributed database. 
 
-such as the authentification of parties and the notarization and validation of data such as compliance documentsproofs-of-knowledge (such as disclosures), statements of intentions (oaths) and contracts, activities or events logs, auditing the integrity of the data supplied. 
-
-T provides an digital trail of unforegable signatures, immutable timestamps and encrypted contextual data that can be used to prove the participants' compliance to  external and internal requirements such as legislation, rules, guidelines, standards, codes, policies, procedures and controls.
-
-Keystamp is the reference implementation of the "Proof-of-compliance" 
-
-It also allows participants to cryptographically prove their identity in a private way by signing messages with their private keys. Private keys can used as encryption passwords for data. Since we use Bitcoin as the cryptography and blockchain platform, all the keys used in Keystamp can not only send and receive funds via Bitcoin but also issue and transfer blockchain-based assets representing any security or property title using Metaprotocols on the Bitcoin blockchain.
-
-
-
-
-
-A Keybase implementation consists of a complete cryptographic key management infrastructure and allows for the seamless integration of blockchain technology in an easy-to-use workflow. A functional API can integrate easily in any existing traditional workflow, with graphical easy-to-use tools to foster implementation. Since Keystamp aims to be a standard, adoption needs to be implemented voluntarily by a large number of firms in the economy to be successful.
+**Proof-of-Compliance** is the output of compliance-related data being processed by using the Keystamp standard. It is a digital trail of unforegable cryptographic signatures, immutable timestamps and encrypted contextual data. At each step of the compliance process, data is gathered, digitally signed, timestamed and encrypted. The decryption of the data, its the validation integrity, the authentification of tis signer and the timestamp's existence can be instantly performed for auditing purposes. 
 
 ### Implementation
 
-We specifically implement the Proof-of-Compliance use-case of Keystamp in the context of “know-your-customer” policies, or any other context where establishing that information was obtained by certain parties at a certain time is required. Proof-of-compliance provides a digital trail of unforgeable signatures and timestamps which consist of irrefutable evidence that someone had certain information, took action or participated in specific events at specific points in time.
+Keystamp was designed, as an application, to be used by organizations - specifically financial institutions, government institutions and large corporations. Heads of the hieararchy in the organization issue certificates to subordinates (and so on) which grant them the ability to sign contracts, handle funds, issue other certificates, encrypt certain data, etc.
 
-It is intended to be used in the context of corporations, where heads of the hieararchy issue certificates to subordinates (and so on) that grant them the right to sign contracts, handle funds, issue other certificates, encrypt certain data, etc. Since issuance and revocation of contracts are enforced cryptographically and are publicly auditable, easy to authentificate and verify using graphical interfaces over complex cryptographic libraries, anybody can verify who they are talking to and where they derive their authority from in the context of a business relationship. It can be implemented by public bodies such as government and enforcement agencies, so as to limit fraud and foster public trust.
+A functional API can integrate easily in any existing traditional workflow, with graphical easy-to-use tools to foster implementation. Since Keystamp aims to be a standard, adoption needs to be implemented voluntarily by a large number of firms in the economy to be successful. Users can also implement Keystamp in their workflow manually using a modern web application.
+
+We specifically implement the Proof-of-Compliance use-case of Keystamp in the context of “know-your-customer” policies, or any other context where establishing that information was obtained by certain parties at a certain time is required. Proof-of-compliance provides a digital trail of unforgeable signatures and timestamps which consist of irrefutable evidence that someone had certain information, took action or participated in specific events at specific points in time. It is a protocol which turns data into tamper-proof legal evidence. 
+
+Since issuance and revocation of contracts are enforced cryptographically and are publicly auditable, easy to authentificate and verify using graphical interfaces over complex cryptographic libraries, anybody can verify who they are talking to and where they derive their authority from in the context of a business relationship. It can be implemented by public bodies such as government and enforcement agencies, so as to limit fraud and foster public trust.
 
 ### Purpose and impact
 
@@ -62,7 +55,22 @@ Our use-case revolves around three types of financial relationships that are und
 - The delivery of data by the producers or sellers of investment products to financial advisors.
 - The assessment of the risk profile of the investment products by financial advisors at time at which advice is given to investing clients.
 
+We want to achieve the following goals:
+
+- Issue license, permits, certifications or delegate authority in a hierarchy
+- Provide proof that the KYC process was performed by financial advisors (e.g. risk assessment of clients)
+- Provide proof of the risk assessment of a security, and the context of its recommendation to the client
+- Provide proof that investors understand their risk assessment and the security they are purchasing
+- Verify the integrity of data, detecting any tampering or forginc of signatures
+- Associate data to individuals to provide "Proof-of-Knowledge"
+
+Compliance data consist of any data used to prove that certain compliance policies were followed. This includes KYC, due diligence, internal audits, release form, consent forms, contracts, etc. In many cases, procedures were followed in person or over the phone. We envision organizational processes where one's perception of events, as well as factual data, is presented to the relevant parties which can "sign-off" on the statement and evidence of the other party. 
+
+### Internal / external compliance, monitoring and reporting with Keybstamp
+
 ![Keystamp implementation](https://github.com/existencelabs/keystamp-whitepaper/blob/master/Keystamp%20Implementation%20resized.png)
+
+In this specific use-case, we see that there is a hierchical relationship between the OSC and the advisory firms (because of the compliance requirements). The firm enjoys additional rights than its employees or subordinates (e.g. financial advisors, affiliated brokers), for which it generates additional sub certificates. 
 
 ## Technology
 
@@ -75,8 +83,19 @@ The first step is to select the cryptographic functions that will be used in the
 
 An application or system implementing the Keystamp process
 
+### Crypto and blockchain
 
- 
+- Key generation using [Bitcoin BIP32 standard](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki)
+- Key derivation for issuing subkeys or certificates
+- Hashing of data using cryptographic hash function [SHA-256](https://en.wikipedia.org/wiki/SHA-2)
+- Signing of hashes (or of any data) using Elliptic Curve Digital Signature Algorithm (ECDSA)
+- Notarize text to the Bitcoin blockchain using the OP_Return 
+1. Creation of a Bitcoin transaction with the KEYSTAMP prefix and the hash of the data to notarize
+2. Broadcast the transation to include the transaction, with our proofs (signatures, data), into the Bitcoin blockchain forever.
+- A validation library which consists of
+1. Retrieving a hash from a txid
+2. Verifiying if a file (file URL) has the same hash
+
 ### Cryptographically-enforced permissions
 
 
@@ -119,19 +138,6 @@ We leverage the public key encryption algorithms on which the identity system of
 
 
 In addition, public key encryption makes possible irrefutable digital signatures. By combining the two, we can prove that a set of data was “signed” by a person or organisation at a certain point in time. We can leverage those technologies in the context of compliance to increase trans
-
-### Crypto and blockchain
-
-- Key generation using [Bitcoin BIP32 standard](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki)
-- Key derivation for issuing subkeys or certificates
-- Hashing of data using cryptographic hash function [SHA-256](https://en.wikipedia.org/wiki/SHA-2)
-- Signing of hashes (or of any data) using Elliptic Curve Digital Signature Algorithm (ECDSA)
-- Notarize text to the Bitcoin blockchain using the OP_Return 
-1. Creation of a Bitcoin transaction with the KEYSTAMP prefix and the hash of the data to notarize
-2. Broadcast the transation to include the transaction, with our proofs (signatures, data), into the Bitcoin blockchain forever.
-- A validation library which consists of
-1. Retrieving a hash from a txid
-2. Verifiying if a file (file URL) has the same hash
 
 
 
