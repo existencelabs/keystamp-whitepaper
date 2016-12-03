@@ -362,7 +362,7 @@ We return a blockchain receipt which includes
 
 ### Using the open-source tools we provide, anybody can verify the signatures and the timestamp thanks to the science of public key encryption and blockchain technology.
 
-*********************************************
+********************************************
 
 ## More Information and resources:
 
