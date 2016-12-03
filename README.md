@@ -16,7 +16,7 @@ Presented under the team Existence
 
 ## Abstract
 
-We propose an new open-source standard, Keystamp, which allows financial services participants to generate and verify irrefutable proofs that specific indidividuals or organizations possessed information, performed actions or signed messages at a certain point in time. Specifically, we design an innovative set of policies and procedures for existing blockchain technologies, protocols and public-key encryption concepts to be integrated in traditional workflows and business relationships. Keystamp is designed to be deployed within organizations and aims to become a the standard framework for industry participants to prove the authenticity, validity and integrity of factual data.
+We propose an new open-source standard, Keystamp, for integrating applied cryptography and blockchain technologies in existing workflows and commercial relationships such as compliance policy implementation and audit. Specifically, we design an innovative set of policies and procedures for using cryptographic signatures, cryptographic hash functions and the Bitcoin blockchain which allows financial services participants to generate and verify irrefutable proofs that specific indidividuals or organizations possessed information, performed actions or signed messages at a certain point in time. Specifically, we design an innovative set of policies and procedures for existing blockchain technologies, protocols and public-key encryption concepts to be integrated in traditional workflows and business relationships. Keystamp is designed to be deployed within organizations and aims to become a the standard framework for industry participants to prove the authenticity, validity and integrity of factual data.
 
 Contextual data such as application logs, phone verification / biometrics, video recordings, emails are included in data bundles with signatures which are encrypted, signed, hashed and timestamped. Pseudonymous cryptographic keys are associated to legal identities in a refernece index, maintained in a centralized or distributed database. 
 
@@ -24,13 +24,11 @@ Contextual data such as application logs, phone verification / biometrics, video
 
 ### Implementation
 
-Keystamp was designed, as an application, to be used by organizations - specifically financial institutions, government institutions and large corporations. Heads of the hieararchy in the organization issue certificates to subordinates (and so on) which grant them the ability to sign contracts, handle funds, issue other certificates, encrypt certain data, etc.
-
-A functional API can integrate easily in any existing traditional workflow, with graphical easy-to-use tools to foster implementation. Since Keystamp aims to be a standard, adoption needs to be implemented voluntarily by a large number of firms in the economy to be successful. Users can also implement Keystamp in their workflow manually using a modern web application.
-
-We specifically implement the Proof-of-Compliance use-case of Keystamp in the context of “know-your-customer” policies, or any other context where establishing that information was obtained by certain parties at a certain time is required. Proof-of-compliance provides a digital trail of unforgeable signatures and timestamps which consist of irrefutable evidence that someone had certain information, took action or participated in specific events at specific points in time. It is a protocol which turns data into tamper-proof legal evidence. 
+We specifically implement the Proof-of-Compliance use-case of Keystamp in the context of “know-your-customer” policies, or any other context where establishing that information was obtained by certain parties at a certain time is required. Proof-of-compliance provides a digital trail of unforgeable signatures and timestamps which consist of irrefutable evidence that someone had certain information, took action or participated in specific events at specific points in time. It is a protocol which turns data into tamper-proof legal evidence.  Keystamp was designed, as an application, to be used by organizations - specifically financial institutions, government institutions and large corporations. Heads of the hieararchy in the organization issue certificates to subordinates (and so on) which grant them the ability to sign and encrypt data.
 
 Since issuance and revocation of contracts are enforced cryptographically and are publicly auditable, easy to authentificate and verify using graphical interfaces over complex cryptographic libraries, anybody can verify who they are talking to and where they derive their authority from in the context of a business relationship. It can be implemented by public bodies such as government and enforcement agencies, so as to limit fraud and foster public trust.
+
+A functional API can integrate easily in any existing traditional workflow, with graphical easy-to-use tools to foster implementation. Since Keystamp aims to be a standard, adoption needs to be implemented voluntarily by a large number of firms in the economy to be successful. Users can also implement Keystamp in their workflow manually using a modern web application.
 
 ### Purpose and impact
 
@@ -63,6 +61,7 @@ We want to achieve the following goals:
 - Provide proof that investors understand their risk assessment and the security they are purchasing
 - Verify the integrity of data, detecting any tampering or forginc of signatures
 - Associate data to individuals to provide "Proof-of-Knowledge"
+- Encrypt data for reporting purposes
 
 Compliance data consist of any data used to prove that certain compliance policies were followed. This includes KYC, due diligence, internal audits, release form, consent forms, contracts, etc. In many cases, procedures were followed in person or over the phone. We envision organizational processes where one's perception of events, as well as factual data, is presented to the relevant parties which can "sign-off" on the statement and evidence of the other party. 
 
@@ -70,9 +69,125 @@ Compliance data consist of any data used to prove that certain compliance polici
 
 ![Keystamp implementation](https://github.com/existencelabs/keystamp-whitepaper/blob/master/Keystamp%20Implementation%20resized.png)
 
-In this specific use-case, we see that there is a hierchical relationship between the OSC and the advisory firms (because of the compliance requirements). The firm enjoys additional rights than its employees or subordinates (e.g. financial advisors, affiliated brokers), for which it generates additional sub certificates. 
+We identify 5 main actors in our specific use-case for compliance process:
 
-## Technology
+1. The regulator: the entity which assigns keys to firms and which is responsible for monitoring the compliance processes of firms.
+2. Firms: they employ financial advisors and report to regulators.
+3. Issuers: they sell securities to financial advisors (can be brokers) and report to regulators.
+4. Advisors: they recommend securites or purchase securities on behalf of their clients and report to both the firms and the regulators.
+5. Investors: they employ financial advisors and ultimately purchase securities and can complain to firms and regulators.
+
+In this specific use-case, we see that there is a hierchical relationship between the OSC and the advisory firms (because of the compliance requirements). The firm enjoys additional rights than its employees or subordinates (e.g. financial advisors, affiliated brokers), for which it generates additional sub certificates.
+
+These sub-certificates are associated to the firm's identity in a public registry, which is common amongst financial regulatory regimes. For examples, numerous jurisdictions have Money Service Businesses and licensed Financial Advisor public registries. 
+
+These firms can then derive child keys for individual, subordinate members of the organization, and so on, according to parameters that are defined by the issuer and/or according to parameters they set themselves, depending on the program design. These child keys are then used for signing data and encrypting data. 
+
+Our two main use cases are:
+
+**Financial advisors**
+
+They will provide all the evidence of a KYC process and respect of certain policies to the investors that they are advising. For example, this can be a risk assemment form and the the conclusions drawn by the financial advisor. For instance, one can imagine a statement by the advisor declaring that he believes his client to be in a high risk profile, meaning that the securities he will recommed will be high risk, and that there is significant chances of financial loss. The advisor will include whatever process he used to come to this conslution (such as an audio recording or form), and the investor will acknowledge that this accurately reflects reality using a cryptographic signature. To remove some complexity, the acknowledgement can be done using traditional remote KYC methods. Proof of these KYC methods, such as the reference ID and applicaiton log of a SMS verification event by a trusted service provider, is included in the data bundle that later becomes the Proof-of-Compliance.
+
+The data is then encrypted by the parties using the private key of the signature as encryption password. The encrypted data bundle is hashed and published on the Bitcoin blockchain.
+
+**Financial product issuers and sellers**
+
+They will digitally sign the information about the security they are issuing / selling to the buyer, in our scenario a broker or financial advisor working in a larger firm, which we will call the "Agent". The information may include a prospectus, disclosure, risk assessment, statement of intentions, disclaimer, etc. The agents will then sign this data along with a statement of acknowledgement that the information was received and understood. The data is then encrypted by the parties using the private key of the signature as encryption password. The encrypted data bundle is hashed and published on the Bitcoin blockchain. It is then easy to prove that certain information was shared and acknowledged by specific parties at a specific time, and the evidence is tamper-evident (meaning that any tampering of the data or signatures is detected instantly).
+
+The information may include a prospectus, disclosure, risk assessment, statement of intentions, disclaimer, etc. The agents will then sign this data along with a statement of acknowledgement that the information was received and understood. The data is then encrypted by the parties using the private key of the signature as encryption password. The encrypted data bundle is hashed and published on the Bitcoin blockchain.
+
+## Keystamp process v 0.2
+
+1. The issuing authority generates a master seed using the Bitcoin BIP32 standard. It is from this key that all subsequent keys in the infrastructure are derived. 
+
+2. The issuing authority generates (derives) child keys for its master key, which are assigned by the issuer to each of the “subordinates” in the hierarchy. These keys can be also conceived as "certificates". 
+
+3. The subkeys are derived using the BIP32 standard, and the reference derivation path would be:
+
+
+
+
+3. This means that anybody can independently verify that a certain firm has been accredited by the regulatory authority, as long as the firm is using the Keystamp protocol.
+
+
+### Customization: the issuing authority could decide not to derive hardened keys, which means that all the certificate holders would be aware of each other and thus track each other’s transactions on the blockchain and be able to verify each other’s signatures.
+
+
+4. Each institution (or person) such as an advisory firm derives extended public keys, again hardened or not, for each other subordinate, such as individual employees and advisors of an advisory firm.
+
+
+5. Each advisor uses a new key, derived from his extended key, to cryptographically sign documents and compliance data.
+
+
+### Compliance data consist of any data used to prove that certain compliance policies were followed. This includes KYC, due diligence, internal audits, release form, consent forms, contracts, etc.
+
+
+6. Every time an advisor engages in the “know-your-customer” process, the advisor presents evidence of the KYC process, risk assessment, disclosures and all relevant data to the end-user. Examples include:
+- Risk assessment forms
+- Recorded video and audio 
+- Email and chat exchanges
+- Disclosures, declarations, fee tables
+
+7. The end user provides his consent that he agrees that the information presented by the advisor accurately reflects the KYC and disclosure process that was completed by the advisor by either digitally signing, validating with phone sms verification or any other traditional remote KYC methods.
+
+8. A data bundle including the compliance data as well as the end-user’s consent proof (signature or SMS validation log) is hashed using SHA-256.
+
+9. The hash is signed by the private key of the person that wishes to prove that he has knowledge of the data.
+
+10. The data is encrypted with that same private key, and is stored securely for the right keyholders to access.
+
+11. The data can be stored in distributed storage networks such as IPFS, maidsafe, or secure cloud storage.
+
+12. The signed hash is stored in the Bitcoin blockchain using OP_RETURN.
+
+13. This proves that at the same time the compliance data, the user consent and the advisor’s signature of that data and consent existed at a certain point in time.
+
+14. If a single byte of data is changed in the compliance data or the user consent proof, the hash will be modified unpredictably. By comparing the compliance hash of the original document on the blockchain with the compliance hash that is presented, we can immediately prove that they are the same (or not), and so that it existed at the time of the block in which it was included.
+
+## Process and data flow
+
+1. The issuing authority generates a master seed using the Bitcoin BIP32 standard. It is from this key that all subsequent keys in the infrastructure are derived. In our example, the regulator would be the issuing authority. This key can be made public by the issuer.
+
+2. The issuing authority generates (derives) sub-keys for its master key, which are assigned by the issuer to each of the “subordinates” in the hierarchy. These keys can be conceived as "certificates". 
+
+
+3. This means that anybody can independently verify that a certain firm has been accredited by the regulatory authority, as long as the firm is using the Keystamp protocol.
+
+
+### Customization: the issuing authority could decide not to derive hardened keys, which means that all the certificate holders would be aware of each other and thus track each other’s transactions on the blockchain and be able to verify each other’s signatures.
+
+
+4. Each institution (or person) such as an advisory firm derives extended public keys, again hardened or not, for each other subordinate, such as individual employees and advisors of an advisory firm.
+
+
+5. Each advisor uses a new key, derived from his extended key, to cryptographically sign documents and compliance data.
+
+
+### Compliance data consist of any data used to prove that certain compliance policies were followed. This includes KYC, due diligence, internal audits, release form, consent forms, contracts, etc.
+
+
+6. Every time an advisor engages in the “know-your-customer” process, the advisor presents evidence of the KYC process, risk assessment, disclosures and all relevant data to the end-user. Examples include:
+- Risk assessment forms
+- Recorded video and audio 
+- Email and chat exchanges
+- Disclosures, declarations, fee tables
+
+7. The end user provides his consent that he agrees that the information presented by the advisor accurately reflects the KYC and disclosure process that was completed by the advisor by either digitally signing, validating with phone sms verification or any other traditional remote KYC methods.
+
+8. A data bundle including the compliance data as well as the end-user’s consent proof (signature or SMS validation log) is hashed using SHA-256.
+
+9. The hash is signed by the private key of the person that wishes to prove that he has knowledge of the data.
+
+10. The data is encrypted with that same private key, and is stored securely for the right keyholders to access.
+
+11. The data can be stored in distributed storage networks such as IPFS, maidsafe, or secure cloud storage.
+
+12. The signed hash is stored in the Bitcoin blockchain using OP_RETURN.
+
+13. This proves that at the same time the compliance data, the user consent and the advisor’s signature of that data and consent existed at a certain point in time.
+
+14. If a single byte of data is changed in the compliance data or the user consent proof, the hash will be modified unpredictably. By comparing the compliance hash of the original document on the blockchain with the compliance hash that is presented, we can immediately prove that they are the same (or not), and so that it existed at the time of the block in which it was included.
 
 ### Design and architecture
 
@@ -178,7 +293,7 @@ Since the higher level keys can derive the keys of the lower level keys:
 
 ## Process and data flow
 
-1. The issuing authority generates a master private key using the Bitcoin BIP32 standard. It is from this key that all subsequent keys in the infrastructure are derived. In our example, the regulator would be the issuing authority. This key can be made public by the issuer.
+1. The issuing authority generates a master seed using the Bitcoin BIP32 standard. It is from this key that all subsequent keys in the infrastructure are derived. In our example, the regulator would be the issuing authority. This key can be made public by the issuer.
 
 2. The issuing authority generates (derives) sub-keys for its master key, which are assigned by the issuer to each of the “subordinates” in the hierarchy. These keys can be conceived as "certificates". 
 
