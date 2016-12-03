@@ -101,11 +101,15 @@ The information may include a prospectus, disclosure, risk assessment, statement
 
 ### Generation and issuance of cryptographic keys
 
-1. The issuing authority generates a master seed using the Bitcoin BIP32 standard. It is from this key that all subsequent keys in the infrastructure are derived.
+1. The issuing authority generates a master seed and derives its master key using the Bitcoin BIP32 standard. It is from this key that all subsequent keys in the infrastructure are derived.
+
+*The issuer of a master has a complete overview of all the keys that are subsequently derived. The issuer can re-create any of the keys derived by its subordinates, and as such has access to all the private keys in the key hierarchy*
 
 2. The issuing authority generates (derives) child keys for its master key, which are assigned by the issuer to each of the “subordinates” in the hierarchy. These keys can be also conceived as "certificates". 
 
 *We recomend to use "hardened" derivation for all the child keys. This way, individual keys or certificates can be exported validated without necessarily exposing other keys.*
+
+
 
 3. The child keys are associated to a "FirmID" in an index or registry, which is the responsibility and prerogative of the issuer.
 
