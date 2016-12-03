@@ -97,11 +97,17 @@ They will digitally sign the information about the security they are issuing / s
 
 The information may include a prospectus, disclosure, risk assessment, statement of intentions, disclaimer, etc. The agents will then sign this data along with a statement of acknowledgement that the information was received and understood. The data is then encrypted by the parties using the private key of the signature as encryption password. The encrypted data bundle is hashed and published on the Bitcoin blockchain.
 
-## Keystamp process v 0.2
+## Keystamp Process
 
-1. The issuing authority generates a master seed using the Bitcoin BIP32 standard. It is from this key that all subsequent keys in the infrastructure are derived. 
+### Generation and issuance of cryptographic keys
+
+1. The issuing authority generates a master seed using the Bitcoin BIP32 standard. It is from this key that all subsequent keys in the infrastructure are derived.
 
 2. The issuing authority generates (derives) child keys for its master key, which are assigned by the issuer to each of the “subordinates” in the hierarchy. These keys can be also conceived as "certificates". 
+
+*We recomend to use "hardened" derivation for all the child keys. This way, individual keys or certificates can be exported validated without necessarily exposing other keys.*
+
+3. The child keys are associated to a "FirmID" in an index or registry, which is the responsibility and prerogative of the issuer.
 
 3. The subkeys are derived using the BIP32 standard, and the reference derivation path would be:
 
