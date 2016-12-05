@@ -224,7 +224,7 @@ The Notarization address for Agents could be a 2-of-2 scheme with the other sign
 
 As long as the parameters are agreed upon in a Keybase implemenbtation between the prover and the authority which is meant to be convinced of the proof (e.g. superiors our outside observers such as regulators).
 
-One address is used to better keep track of the OP_RETURN timestamps on the Bitcoin blockchain. It is from this address that the OP_RETURN transactions are broadcast. This address is associated to a participant in the Keystamp implementation in a private or public registry
+One address is used to better keep track of the OP_RETURN timestamps on the Bitcoin blockchain. It is from this address that the OP_RETURN transactions are broadcast. This address is associated to a participant in the Keystamp implementation in a private or public registry.
 
 ### Keeping a timestampted record
 
@@ -253,6 +253,8 @@ The Proof-of-Compliance is the output of the Keystamp process. It is a protocol 
 - Blockheight in Bitcoin blockchain
 - Time according to the miner's timestamp server
 
+![Keystamp process](https://i.imgur.com/QwYnGhw.jpg)
+
 ### Audit and validation
 
 **Auditing the timestamp**
@@ -268,7 +270,7 @@ To audit:
 Step 1: Extracting the hash of proof on the blockchain by looking up the transaction ID in which was included the timestamp
 Step 2: Compare with the hash of the evidence that is presented to audit
 
-`Final hash = SHA256(proof hash, SHA256(signature1), SHA256(signature2)`
+`Final hash = SHA256(proof hash, SHA256(signature1), SHA256(signature2))`
 
 Step 3: If the hash in the blockchain is the same hash as the final hash of the data and signatures presented, we know that the integrity of the data and signatures is preserved. If not, than we know that the data has been tampered with. If a single byte of data is changed in the compliance data or the user consent proof, the hash will be modified unpredictably. By comparing the compliance hash of the original document on the blockchain with the compliance hash that is presented, we can immediately prove that they are the same (or not), and so that it existed at the time of the block in which it was included.
 
