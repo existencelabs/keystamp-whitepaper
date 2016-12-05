@@ -133,6 +133,8 @@ AgentID: lower level of derivation initiatied by the firm
 
 Using this derivation path, we can easily associate certain keys to their legal ids. 
 
+![Key derivation](https://i.imgur.com/i26CDJc.png)
+
 Customization: the issuing authority could decide not to derive hardened keys, which means that all the certificate holders would be aware of each other and thus track each other’s transactions on the blockchain and be able to verify each other’s signatures.
 
 **Note: the derivation tree can have additional levels for more complex arrangements**
@@ -141,14 +143,15 @@ The Keystamp standard is not unlike the BIP44 standard used by Bitcoin wallets, 
 
 `m / purpose' / coin_type' / account' / change / address_index`
 
-This goes to show that the specific organisational structures can be encoded as BIP32 standards such as BIP44. Keybase is such an example.
+This goes to show that the specific organisational structures can be encoded as BIP32 standards such as BIP44. Keybase is such an example. In practice:
+
 
 
 4. Each institution (or person) such as an advisory firm derives extended public keys, again hardened or not, for each other subordinate, such as individual employees and advisors of an advisory firm. These are referred to as "agents", meaning that they do not have the capacity to issue keys but only to sign.
 
 5. Registries of public keys are kept, either internally or public, depending on the settings. This allows signature to be publicly associated to certain keys, meaning that anybody can independently verify a signature. If a firm or issuer is associated to a public key in a public registry, members of the public can independently verify that a certain firm has been accredited by the regulatory authority, as long as the firm is using the Keystamp protocol.
 
-**Steps to verify a signature:
+### Steps to verify a signature
 
 - When you receive a signed message, the signature appears as an extra bit of text
 - You input this signature, along with the registered key of the signatory and the original text in the verification API
@@ -156,22 +159,21 @@ This goes to show that the specific organisational structures can be encoded as 
 
 6. Each agent uses a new key, derived from his extended key, to cryptographically sign documents and compliance data. Private keys are used each for only one "transaction" or event in the recorded database.
 
-**Compliance data consist of:
+### Compliance data 
+
+7. Compliance data is collected by the participants in the scheme. It consists of:
 
 - contextual data
 - proof that KYC process was followed
-- Due diligence, disclosures, release forms, consent forms
-- Recorded interviews, application logs
-- Statement of intentions, contracts, affidavits
-
-For example, in the use-case of a financial markets regulator. Every time a financial advisor engages in the “know-your-customer” process, the advisor presents evidence of the KYC process, risk assessment, disclosures and all relevant data to the end-user. Examples include:
-
-- Risk assessment forms
+- Due diligence, disclosures, release forms, consent forms, fee tables, risk assessment forms
 - Recorded video and audio 
 - Email and chat exchanges
-- Disclosures, declarations, fee tables
-
+- Application logs
+- Statement of intentions, contracts, affidavits
+- Any potential evidence
 The end user provides his consent that he agrees that the information presented by the advisor accurately reflects the KYC and disclosure process that was completed by the advisor by either digitally signing, validating with phone sms verification or any other traditional remote KYC methods.
+
+### Hashing process
 
 8. A data bundle including the compliance data as well as the end-user’s consent proof (signature or SMS validation log) is hashed using SHA-256. The data and the hash is "signed" by the end-user, either using a private key or using traditional KYC methods, that can include:
 
@@ -180,21 +182,39 @@ The end user provides his consent that he agrees that the information presented 
 - Recorded interaction
 - Any remote KYC or identity method leaving evidence of process
 
-9. The hash is signed by the private key of the person that wishes to prove that he has knowledge of the data.
+9. The hash is signed by the private key of participants that wish to prove that he has knowledge of the data. 
 
-10. The data is encrypted with that same private key, whose derivation path displays the source of the signign authority and to which internal document this key is attached to.
+10. At the end of the process, all the hashes are bundled together and hashed into a "final hash" which is the one timestamped in the Bitcoin blockchain. If any of the input data resulting in one of those hashed has been tampered with, the final hash will be changed. At this point, we can test every individual hash to find out which one was tampered with. 
 
-**Since we are using ECDSA Bitcoin keys that cannot by themselves encrypt documents, we rather use a derived private key as the encryption password for AES encryption.**
+`Final hash = SHA256(data hash, signature1, signature2)`
 
-11. The encrypted data can be stored in distributed storage networks such as IPFS, maidsafe, or secure cloud storage. FOr privacy, the index or registry of legal identities to derivation paths (crtographic identities)
+### Encryption of data
+
+10.  Since we are using ECDSA Bitcoin keys that cannot by themselves encrypt documents, we rather use a derived private key as the encryption password for AES encryption. The data is encrypted with that same private key, whose derivation path displays the source of the signign authority and to which internal document this key is attached to.
+
+`XPRIV + DERIVATION PATH OF CHILD KEY = PRIVATE KEY = AES DECRYPTION PASSWORD`
+
+11. The encrypted data can be stored in distributed storage networks such as IPFS, maidsafe, or secure cloud storage. For privacy, the index or registry of legal identities to derivation paths (crtographic identities)
+
+### Timestamping
+
+A blockchain timestamp is the act of including ceratin data as metadata in a Bitcoin transaction. We can prove that whatever data is included at that time existed at the time that this transaction was mined into a block in the Bitcoin blockchain. The data we add in a transaction is publicly available. However, because hashes and timestamp are only used to validate the integrity of data, they are meaningless unless someone has the original data (and thus are not by defaulta breach of privacy, although privacy is an issue).
 
 12. The signed hash is stored in the Bitcoin blockchain using OP_RETURN.
 
-We use our own notarization header KEYSTAMP for auditing purposes
+We first create a Notarization string using our own header KEYSTAMP:
 
 `KEYSTAMP:HASH`
 
-13. The Notarizer is the address which signs the transaction which includes the OP_RETURN
+13. The string is inculded in a Bitcoin transaction using the OP_RETURN opcode. The address from which the transaction is sent is a Notarizing address.
+
+14. Ideally, the notarizing is a multisignature address where signing keys are divided amongst the hierarchies. This function can be used to create certain access control logic for timestamping functions withint the organization:
+
+Let's imagine that an organization has 4 levels of derivation in a large corporate, such as:
+
+`m / Firm board or CEO / Executives / Division managers / Agents`  
+
+
 
 - Any address can broadcast the OP_RETURN metadata in the Bitcoin blockchain, it doesn't necessarily have to be the one used for signing or encrypting the data.
 - In our initial design, one Notirization address is used to better keep track of the OP_RETURN timestamps on the Bitcoin blockchain. It is from this address that the OP_RETURN transactions are broadcast. This address is associated to a participant in the Keystamp implementation in a private or public registry.
