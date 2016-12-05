@@ -226,14 +226,6 @@ As long as the parameters are agreed upon in a Keybase implemenbtation between t
 
 One address is used to better keep track of the OP_RETURN timestamps on the Bitcoin blockchain. It is from this address that the OP_RETURN transactions are broadcast. This address is associated to a participant in the Keystamp implementation in a private or public registry
 
-### Audit and validation
-
-Auditing the data is done by extracting the hash of proof on the blockchain and comparing with the hash of the evidence that is presented to audit. In addition, signatures are audited against public keys so we can verify the proof that a specific person was the signatory prior to the proof being inserted into a transaction timestamped into a block in the Bitcoin blockchain.
-
-If a single byte of data is changed in the compliance data or the user consent proof, the hash will be modified unpredictably. By comparing the compliance hash of the original document on the blockchain with the compliance hash that is presented, we can immediately prove that they are the same (or not), and so that it existed at the time of the block in which it was included.
-
-Signatures work in a similar way. If someone has the signature, the public key iof the signatory and the data signed, it is very easy for anybody to audit using cryptographic functions that the signature is valid.
-
 ### Keeping a timestampted record
 
 In the Keystamp proces, it is important that certain keys (and thus certain derivation paths) are associated to interal identities. Recall that the derivation path is:
@@ -261,6 +253,37 @@ The Proof-of-Compliance is the output of the Keystamp process. It is a protocol 
 - Blockheight in Bitcoin blockchain
 - Time according to the miner's timestamp server
 
+### Audit and validation
+
+**Auditing the timestamp**
+
+Requirement 1: we are trying to determine someone signed a piece of data at a certain time. To start, we need to possess the data the is trying to be proved.
+
+Requirement 2: we also need the signatures which are being presented as evidence that the data was signed by them.
+
+Requirement 3: finally we need the derivation paths of the keys used, which will give the auditor the public key corresponding to the private key that was used to sign and encrypt the data. 
+
+To audit:
+
+Step 1: Extracting the hash of proof on the blockchain by looking up the transaction ID in which was included the timestamp
+Step 2: Compare with the hash of the evidence that is presented to audit
+
+`Final hash = SHA256(proof hash, SHA256(signature1), SHA256(signature2)`
+
+Step 3: If the hash in the blockchain is the same hash as the final hash of the data and signatures presented, we know that the integrity of the data and signatures is preserved. If not, than we know that the data has been tampered with. If a single byte of data is changed in the compliance data or the user consent proof, the hash will be modified unpredictably. By comparing the compliance hash of the original document on the blockchain with the compliance hash that is presented, we can immediately prove that they are the same (or not), and so that it existed at the time of the block in which it was included.
+
+Step 4: If the data has been tampered with, we separate the hashes and check them individually. We will be able to figure wheter it is the data or signatures that have been tampered with.
+
+**Validating the signatures**
+
+To validate the signatures, one only needs to have the public key of the signatory, the signature and the data. We can independently check that the signature would have been performed by the private key from which is derived the public key.
+
+**Cross-checking against the registry timestamp**
+
+Once it has been established that a certain private key signed a specific set of data at a specific time, we need to associate the public key with an identity. We can see from the transaction ID which included the OP_RETURN which keys were used to sign off of the timestamp, so we can suspect that the superior signer knew that the subordinate signer was who he claimed he was.
+
+However, in order to make sure, we can look at the history of changes of the registry and since each change is hashed we know that the registry data at time of transaction broadcast has not been tampered with.
+
 ### Innovation and significance
 
 **Extending BIP32 for encryption**
@@ -270,6 +293,8 @@ One of the novelties of Keystamp is the innovative use of the BIP32 key architec
 This creates a system for cryptographically-enforced access permissions. The derivation path of the key which used to sign the data and encrypt the data.
 
 XPRIV + CHILD DERIVATION PATH = DECRYPTION KEY
+
+We believe that this function of BIP32 is unique and adds value to Keystamp, and is thus superior to other schemes such as PGP.
 
 **Extending BIP32 for cryptographic certificates**
 
@@ -281,34 +306,9 @@ We implement a system by which notarizations are valid only if the transaction i
 
 ### Future development: blockchain assets (meta-profocols like Colu)
 
+The same private keys can be used to issue or receive any blockchain asset, from securities to obligations, gift cards, vouchers, etc. When those innovations become mainstream, the validation of transactions will be trustless perfectly synced with cryptographic identities. The master private keys can be exported from a Keystamp implementation and imported in a Colu implementation. We can prove beyond doubt that a certain asset was generated or received by the signatory of in a Keystamp process. This proof is irrefutable.
 
-The same private keys can be used to issue or receive any blockchain asset, from securities to obligations, gift cards, vouchers, etc. When those innovations become mainstream, the validation of transactions will be trustless perfectly synced with cryptographic identities.
-
-
-All of these cryptographic identities can be linked to legal identities in a centralized government or institutional database. It is possible to use distributed storage networks like IPFS  to store data.That database acts as a reference index for pseudonymous keys.
-
-
-## Timestamping
-
-
-To prove that data existed at a certain time, we can hash the data, leaving a tiny fingerprint. That fingerprint is then signed by the holder of a key, along with a message providing context. If the key is associated to a legal identity, this is irrefutable proof that a person or organization said something or had some information.
-
-##Technology stack
-
-### Bitcoin blockchain thermodynamics
-
-One of the main benefits of the blockchain is that it can provide independently auditable cryptographic proof that a certain set of data existed at a specific period in time. Because of the blockchain proof-of-work algorithm, data embedded in the blockchain is entirely immutable.This is what is referred to as “notarization”. The reason why this is useful is because of the work produced by the miners
-
-
-We leverage the public key encryption algorithms on which the identity system of the Bitcoin blockchain is built, as well as the immutable and trustless nature of blockchain timestamps. 
-
-
-
-In addition, public key encryption makes possible irrefutable digital signatures. By combining the two, we can prove that a set of data was “signed” by a person or organisation at a certain point in time. We can leverage those technologies in the context of compliance to increase trans
-
-
-
-### Implementation
+### Implementation infrastructure components
 
 - [ An API for all the crypto functions](https://github.com/shayanb/keystamp-crypto)
 - Abstraction layer for complex cryptographic libraries (ease of integration)
@@ -319,82 +319,13 @@ In addition, public key encryption makes possible irrefutable digital signatures
 - Traditional KYC methods for assessing user identity online 
 - A graphical interface for internal and regulatory compliance showoing the map of all key trees
 
+Data kept in internal database:
 
-
-
-
-
-
-
-## Significance and innovation 
-
-
-Keystamp if the first project to leverage the BIP32 key architecture of Bitcoin, invented by Gregory Maxwell, the CTO of Blockstream, not only for cryptographic signatures or the issuance of cryptographic certificates but also for cryptographically enforced access permission to certain data. This access takes the form of a novel use of BIP32 to achieved hierarchical public key encryption for messages. We achieve this by using the private keys as encryption passwords.
-
-
-Since the higher level keys can derive the keys of the lower level keys:
-
-
-- The regulator can decrypt all the data
-- The firm can decrypt the data of all its subordinates
-- Subordinates can encrypt data for reporting purposes
-
-
-
-
-
-## Process and data flow
-
-1. The issuing authority generates a master seed using the Bitcoin BIP32 standard. It is from this key that all subsequent keys in the infrastructure are derived. In our example, the regulator would be the issuing authority. This key can be made public by the issuer.
-
-2. The issuing authority generates (derives) sub-keys for its master key, which are assigned by the issuer to each of the “subordinates” in the hierarchy. These keys can be conceived as "certificates". 
-
-
-3. This means that anybody can independently verify that a certain firm has been accredited by the regulatory authority, as long as the firm is using the Keystamp protocol.
-
-
-### Customization: the issuing authority could decide not to derive hardened keys, which means that all the certificate holders would be aware of each other and thus track each other’s transactions on the blockchain and be able to verify each other’s signatures.
-
-
-4. Each institution (or person) such as an advisory firm derives extended public keys, again hardened or not, for each other subordinate, such as individual employees and advisors of an advisory firm.
-
-
-5. Each advisor uses a new key, derived from his extended key, to cryptographically sign documents and compliance data.
-
-
-### Compliance data consist of any data used to prove that certain compliance policies were followed. This includes KYC, due diligence, internal audits, release form, consent forms, contracts, etc.
-
-
-6. Every time an advisor engages in the “know-your-customer” process, the advisor presents evidence of the KYC process, risk assessment, disclosures and all relevant data to the end-user. Examples include:
-- Risk assessment forms
-- Recorded video and audio 
-- Email and chat exchanges
-- Disclosures, declarations, fee tables
-
-7. The end user provides his consent that he agrees that the information presented by the advisor accurately reflects the KYC and disclosure process that was completed by the advisor by either digitally signing, validating with phone sms verification or any other traditional remote KYC methods.
-
-8. A data bundle including the compliance data as well as the end-user’s consent proof (signature or SMS validation log) is hashed using SHA-256.
-
-9. The hash is signed by the private key of the person that wishes to prove that he has knowledge of the data.
-
-10. The data is encrypted with that same private key, and is stored securely for the right keyholders to access.
-
-11. The data can be stored in distributed storage networks such as IPFS, maidsafe, or secure cloud storage.
-
-12. The signed hash is stored in the Bitcoin blockchain using OP_RETURN.
-
-13. This proves that at the same time the compliance data, the user consent and the advisor’s signature of that data and consent existed at a certain point in time.
-
-14. If a single byte of data is changed in the compliance data or the user consent proof, the hash will be modified unpredictably. By comparing the compliance hash of the original document on the blockchain with the compliance hash that is presented, we can immediately prove that they are the same (or not), and so that it existed at the time of the block in which it was included.
-
-We return a blockchain receipt which includes
-- The hash of compliance data
-- The hash signature
-- The advisor’s public key
-- The blockchain txid
-- Link to the encrypted original file
-
-### Using the open-source tools we provide, anybody can verify the signatures and the timestamp thanks to the science of public key encryption and blockchain technology.
+- Encrypted data
+- Decrypted data hash
+- Signatures 
+- Transaction ids
+- Registry of identities
 
 ********************************************
 
