@@ -16,11 +16,13 @@ Presented under the team Existence
 
 ## Abstract
 
-We propose an new open-source standard, Keystamp, for integrating applied cryptography and blockchain technologies in existing workflows and commercial relationships such as compliance policy implementation and audit. Specifically, we design an innovative set of policies and procedures for using cryptographic signatures, cryptographic hash functions and the Bitcoin blockchain which allows financial services participants to generate and verify irrefutable proofs that specific indidividuals or organizations possessed information, performed actions or signed messages at a certain point in time. Keystamp is designed to be deployed within organizations and integrated in traditional workflows and business relationships. It aims to become a the standard framework for industry participants to prove the authenticity, validity and integrity of factual data.
+We propose an new open-source standard, Keystamp, for integrating applied cryptography and blockchain technologies in existing corporate processes and commercial relationships, such as compliance policy implementation and audit. Specifically, we design an innovative set of policies and frameworks for using those technologies which allows financial services participants to generate and verify irrefutable proofs that specific indidividuals or organizations possessed information, performed actions or signed messages at a certain point in time. Keystamp is designed to be deployed within organizations, and is not decentralized.
 
-Contextual data such as application logs, phone verification / biometrics, video recordings, emails are included in data bundles with signatures which are encrypted, signed, hashed and timestamped. Pseudonymous cryptographic keys are associated to legal identities in a refernece index, maintained in a centralized or distributed database. 
+It is a protocol for participants to agree on how the authenticity, validity and integrity of factual data is determined. Participants will agree on the Keystamp protocol because it is easily implemented and can be audited independently by participants or third-party observers which are provided with the relevant dataa.
 
-**Proof-of-Compliance** is the output of compliance-related data being processed by using the Keystamp standard. It is a digital trail of unforegable cryptographic signatures, immutable timestamps and encrypted contextual data. At each step of the compliance process, data is gathered, digitally signed, timestamed and encrypted. The decryption of the data, its the validation integrity, the authentification of tis signer and the timestamp's existence can be instantly performed for auditing purposes. 
+**Proof-of-Compliance** is the output of compliance-related data being processed by using the Keystamp standard. Compliance related data can consist of anything the participants believe is relevant, such as KYC forms, SMS verification logs, video recordings, emails, addifavits, contracts, etc.
+
+Proof-of-compliance is a digital trail of unforegable cryptographic signatures, immutable timestamps and encrypted contextual data. At each step of the compliance process, data is gathered, digitally signed, timestamed and encrypted. The decryption of the data, its the validation integrity, the authentification of tis signer and the timestamp's existence can be instantly performed for auditing purposes. Pseudonymous cryptographic keys are associated to legal identities in a refernece index, maintained in a centralized or distributed database. 
 
 ### Purpose and impact
 
@@ -38,7 +40,7 @@ Keystamp has the potential to enormously decrease the costs of compliance and au
 - Timestamps using OP_RETURN Bitcoin transactions (Blockchain)
 - AES encryption
 - (In development) Open-timestamp infrastructure
-- We introduce derivation protocol for linking keys to identities 
+- We introduce BIP32 derivation standard for linking keys to identities 
 
 ### Implementation
 
