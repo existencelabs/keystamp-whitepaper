@@ -1,11 +1,11 @@
 # KEYSTAMP
 ## An open-source Proof-of-Compliance standard on the blockchain
 
-by Francis Pouliot, Shayan Eskandari
+by Francis Pouliot, with the collaboration of Shayan Eskandari
 
 Written during RegHackTO hackathon, November 27th 2016
 
-With the collaboration of:
+Special thanks to:
 
 - Jean-Philippe Beaudet
 - Arthur Gerbelot
@@ -113,13 +113,11 @@ The information may include a prospectus, disclosure, risk assessment, statement
 
 ### Generation and issuance of cryptographic keys
 
-1. The issuing authority generates a master seed and derives its master key using the Bitcoin BIP32 standard. It is from this key that all subsequent keys in the infrastructure are derived.
-
-*The issuer of a master has a complete overview of all the keys that are subsequently derived. The issuer can re-create any of the keys derived by its subordinates, and as such has access to all the private keys in the key hierarchy*
+1. The issuing authority generates a master seed and derives its master key using the Bitcoin BIP32 standard. It is from this key that all subsequent keys in the infrastructure are derived. The issuer of a master has a complete overview of all the keys that are subsequently derived. The issuer can re-create any of the keys derived by its subordinates, and as such has access to all the private keys in the key hierarchy
 
 2. The issuing authority generates (derives) child keys for its master key, which are assigned by the issuer to each of the “subordinates” in the hierarchy. These keys can be also conceived as "certificates". 
 
-*We recomend to use "hardened" derivation for all the child keys. This way, individual keys or certificates can be exported validated without necessarily exposing other keys.*
+We recomend to use "hardened" derivation for all the child keys. This way, individual keys or certificates can be exported validated without necessarily exposing other keys.
 
 ![BIP32](https://github.com/existencelabs/keystamp-whitepaper/blob/FrancisPouliot-patch-1/BIP32.png)
 
@@ -167,6 +165,7 @@ This goes to show that the specific organisational structures can be encoded as 
 - Statement of intentions, contracts, affidavits
 
 For example, in the use-case of a financial markets regulator. Every time a financial advisor engages in the “know-your-customer” process, the advisor presents evidence of the KYC process, risk assessment, disclosures and all relevant data to the end-user. Examples include:
+
 - Risk assessment forms
 - Recorded video and audio 
 - Email and chat exchanges
@@ -220,6 +219,8 @@ This allows anybody with access to the signatures and derivation paths to prove 
 
 As such, it is crucial that the database be hashed, signed and timetsamp whenever the is a new entry. The issuer can thus modify the registry, revoking keys for certain legal identities or rights. Keys that are compromised can be removed from the registry.
 
+The hash of the registry is timestamped and saved along with an archive cache of the registry at that time, so that it can be proven that a certain signature by performed by a legal id by looking at the official registry of the organization at that time.
+
 ### Proof-of-compliance
 
 The Proof-of-Compliance is the output of the Keystamp process. It is a protocol for generating and auditing tamper-evident proofs. Amongts the data provided is:
@@ -230,27 +231,30 @@ The Proof-of-Compliance is the output of the Keystamp process. It is a protocol 
 - Key derivation paths = map to private key to obtain the encryption password
 - Decrypted data
 - Digital signatures 
-- Publc keys of signatories
-- TransacttionID 
+- Publc keys of signatories- TransacttionID 
 - OP_RETURN format (KEYSTAMP:HASH)
 - Blockheight in Bitcoin blockchain
 - Time according to the miner's timestamp server
 
 ### Innovation and significance
 
-**Extending BIP32 for new use-cases**
+**Extending BIP32 for encryption**
 
-One of the novelties of Keystamp is the innovative use of the BIP32 key architecture to encrypt data. Indeed, Bitcoin keys can only be used for signing. However, private keys can be used as encryption password for other algorithms such as AES. By using keys as passwords, we allow superiors in the Keystamp hierarcyhy to have access to data encrypted by its subordiates or agents.
+One of the novelties of Keystamp is the innovative use of the BIP32 key architecture to encrypt data. Indeed, Bitcoin keys can only be used for signing. However, private keys can be used as encryption password for other algorithms such as AES. By using keys as passwords, we allow superiors in the Keystamp hierarcyhy to have access to data encrypted by its subordiates or agents. It’s a one way function. As such, only the issuing authority has access to all the data, and permissions are hierarchical, perfect for institutions such as financial regulators.
 
-This creates a system for cryptographically-enforced access permissions. The derivation path of the key which used to sign the data and encrypt the data 
+This creates a system for cryptographically-enforced access permissions. The derivation path of the key which used to sign the data and encrypt the data.
 
+XPRIV + CHILD DERIVATION PATH = DECRYPTION KEY
 
+**Extending BIP32 for cryptographic certificates**
 
+We test the implementation of Bitcoin BIP32 in a public key infrastrncture. By associated the derivation path of keys to public registries, we can allow selected participants to independently verify where certain keys are derived from, i.e. where they get their signing authority and who can decrypt their data.
 
-We use private keys not only for signing data but also as encryption passwords for storing data. This means that when the lower sub-keys encrypt data, all the levels above can decrypt it. It’s a one way function. As such, only the issuing authority has access to all the data, and permissions are hierarchical, perfect for institutions such as financial regulators.
+**Multisignature notarization signatures**
 
+We implement a system by which notarizations are valid only if the transaction is broadcast from a multisignature address. This allows participants of the Keystamp process to specify schemes where the agents lower in the hierarchy request their superiors to-cosign. In order to revocate the right of the agent to notarize certain information and be recognized as valid edivence, for instance if it is believe that they agent's key is compromised, the superior just refuses to co-sign and the agent cannont broadcast its valid proof.
 
-## Decentralized and trustless
+### Future development: blockchain assets (meta-profocols like Colu)
 
 
 The same private keys can be used to issue or receive any blockchain asset, from securities to obligations, gift cards, vouchers, etc. When those innovations become mainstream, the validation of transactions will be trustless perfectly synced with cryptographic identities.
