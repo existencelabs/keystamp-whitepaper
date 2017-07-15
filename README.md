@@ -30,7 +30,7 @@ Keystamp is a Proof-of-Knowledge institution for the digital economy, since this
 
 It can be used for mediation in civil disputes (contracts) by the general public since proofs are easy to verify. The purpose is to foster trust through disruptive technologies. We aim to increase social cohesion in the digital economy, providing an entirely digital institutional framework of trust for the digital economy.
 
-Keystamp has the potential to enormously decrease the costs of compliance and audit for financial institutions, technology providers, governments, and any institution that needs trust and hierarchical authorizations. It increases transparency and saves money to the taxpayers. Because Keybase operates independently from any other system and rather connects via API or using the a web application, it is easy to implement in an existing production workflow without changing the system used, as long as the system used can communicate data to the Keystamp app or API.
+Keystamp has the potential to enormously decrease the costs of compliance and audit for financial institutions, technology providers, governments, and any institution that needs trust and hierarchical authorizations. It increases transparency and saves money to the taxpayers. Because Keystamp operates independently from any other system and rather connects via API or using the a web application, it is easy to implement in an existing production workflow without changing the system used, as long as the system used can communicate data to the Keystamp app or API.
 
 ### Blockchain and crypto technologies
 
@@ -234,7 +234,7 @@ Let's imagine that an organization has 4 levels of derivation in a large corpora
 
 The Notarization address for Agents could be a 2-of-2 scheme with the other signature being that of the Manager. So for a timestamp to be valid, it must be signed by both the manager and the agent. Any scheme can be implemented, which allows for greater flexibility in design cryptographic access controls to the timestamping functions.
 
-As long as the parameters are agreed upon in a Keybase implementation between the prover and the authority which is meant to be convinced of the proof (e.g. superiors our outside observers such as regulators).
+As long as the parameters are agreed upon in a Keystamp implementation between the prover and the authority which is meant to be convinced of the proof (e.g. superiors our outside observers such as regulators).
 
 One address is used to better keep track of the OP_RETURN timestamps on the Bitcoin blockchain. It is from this address that the OP_RETURN transactions are broadcast. This address is associated to a participant in the Keystamp implementation in a private or public registry.
 
